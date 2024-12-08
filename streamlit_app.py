@@ -24,6 +24,8 @@ df = pd.read_csv("gym_members_exercise_tracking_synthetic_data.csv")
 
 st.header("Dataset")
 st.write("The first few rows of the dataset:")
+code = '''df = pd.read_csv("gym_members_exercise_tracking_synthetic_data.csv")'''
+st.code(code)
 st.dataframe(df.head())
 
 st.header("Basic Statistics")
