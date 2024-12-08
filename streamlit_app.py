@@ -4,6 +4,7 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 import io
+from flask import Flask, request, jsonify
 
 st.set_page_config(page_title="Gym Member Analysis", layout="wide")
 
@@ -283,3 +284,29 @@ st.code(s)
 
 st.header("Conclusion")
 st.write("Dataset is interesting for data cleaning and wide variety of different columns. Unfortunatly it is randomly generated and it is not possible to use this data for conclusions. ")
+
+
+
+app = Flask(__name__)
+
+# Define the GET route to retrieve data from the DataFrame
+@app.route('/get_data', methods=['GET'])
+def get_data():
+    # Get the 'age' and 'city' query parameters from the request
+    try:
+        min_age = int(request.args.get('min_age', 18))  # Default to 0 if not provided
+        amount_of_results = request.args.get('amount_of_results', 5)  # None if no city provided
+
+        # Filter the DataFrame based on the query parameters
+        filtered_df = df[df['age'] >= min_age.head(amount_of_results)]
+
+        # Convert the filtered DataFrame to a dictionary
+        result = filtered_df.to_dict(orient='records')
+        
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+        
+# Run the Flask app
+if name == '__main__':
+    app.run(debug=True)
