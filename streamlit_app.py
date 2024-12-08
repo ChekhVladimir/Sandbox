@@ -156,7 +156,7 @@ st.write("BMI from dataset is completly independend.")
 
 st.header("Data Transformation 2")
 st.write("Calculating if Avg_BPM is bigger than Max_BPM. It is contradicting situation.")
-st.latex(r"""{BPM} = \text{Max BPM} - \text{Avg BPM}""")
+st.latex(r"""{Check BPM} = \text{Max BPM} - \text{Avg BPM}""")
 
 df['Check_BPM'] = (df['Max_BPM'] - df['Avg_BPM'] > 0)
 fig = px.scatter(df.loc[df['Workout_Type'] == 'Strength'], x = 'Avg_BPM', y = 'Max_BPM', color = 'Check_BPM' ,title = 'BPM depended on workout type')
