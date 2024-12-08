@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
-import plotly.express as px
-import seaborn as sns
 
 st.write('Hello World!')
 
@@ -14,5 +11,5 @@ st.dataframe(df.describe())
 
 st.dataframe(df.isna().sum())
 
-st.dataframe(df.info())
-
+df['Max_BPM'] = pd.to_numeric(df['Max_BPM'], errors='coerce')
+df.info()
