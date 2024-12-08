@@ -72,10 +72,22 @@ st.code(s)
 
 st.write("We can not fillin columns 'Gender' and 'Workout_Type' with average values. So I prefer to drop out lines with blank fields in this columns.")
 st.write("I think in real world age is super important for fitness data. So I decided not to fill it with average and delete lines with nans.")
+code = '''df = df.dropna(subset=['Age', 'Gender', 'Workout_Type'])'''
+st.code(code)
 df = df.dropna(subset=['Age', 'Gender', 'Workout_Type'])
 st.write(df.isna().sum())
 
 st.write("If we delete all the lines with nans we will lose about 1/3 of dataset. Therefore I decided to fillin fileds with average values for each column.")
+code = '''columns_to_fill = [
+    "Avg_BPM", "Max_BPM", "Weight (kg)", "Height (m)", "Resting_BPM",
+    "Session_Duration (hours)", "Calories_Burned", "Fat_Percentage",
+    "Water_Intake (liters)", "Workout_Frequency (days/week)", "Experience_Level", "BMI"
+]
+
+for col in columns_to_fill:
+    mean_value = df[col].mean()
+    df[col] = df[col].fillna(mean_value)'''
+st.code(code)
 columns_to_fill = [
     "Avg_BPM", "Max_BPM", "Weight (kg)", "Height (m)", "Resting_BPM",
     "Session_Duration (hours)", "Calories_Burned", "Fat_Percentage",
@@ -87,10 +99,16 @@ for col in columns_to_fill:
     df[col] = df[col].fillna(mean_value)
 
 st.header("Workout fields check")
+code = '''fig = px.bar(df, x = 'Workout_Type', color = 'Workout_Type', title = 'Workout types')'''
+st.code(code)
 fig = px.bar(df, x = 'Workout_Type', color = 'Workout_Type', title = 'Workout types')
 st.plotly_chart(fig)
 st.write("As we can see there is some data that matches with other categories but changed a bit, so I will delete all the other types of Workout besides Strength, Cardio, HIIT and Yoga.")
 
+code = '''valid_workout_types = ["Strength", "Cardio", "HIIT", "Yoga"]
+df.loc[~df['Workout_Type'].isin(valid_workout_types), 'Workout_Type'] = None
+df = df.dropna(subset=['Workout_Type']).reset_index(drop=True)'''
+st.code(code)
 valid_workout_types = ["Strength", "Cardio", "HIIT", "Yoga"]
 df.loc[~df['Workout_Type'].isin(valid_workout_types), 'Workout_Type'] = None
 df = df.dropna(subset=['Workout_Type']).reset_index(drop=True)
@@ -100,18 +118,29 @@ st.write(df.isna().sum())
 
 st.header("Overview")
 st.write("Distribution of numerical columns:")
+code = '''fig, ax = plt.subplots(figsize=(16, 12))
+df.hist(bins=20, ax=ax)'''
+st.code(code)
 fig, ax = plt.subplots(figsize=(16, 12))
 df.hist(bins=20, ax=ax)
 st.pyplot(fig)
 st.write("We can see that there is no zero values in data.")
 
+code = '''fig = px.pie(df, names="Gender", title="Gender Distribution")'''
+st.code(code)
 fig = px.pie(df, names="Gender", title="Gender Distribution")
 st.plotly_chart(fig)
 
+code = '''fig = px.bar(df, x='Workout_Type', color="Workout_Type", title='Workout Type Distribution')'''
+st.code(code)
 fig = px.bar(df, x='Workout_Type', color="Workout_Type", title='Workout Type Distribution')
 st.plotly_chart(fig)
 
 st.header("Correlation Heatmap")
+code = '''fig, ax = plt.subplots(figsize=(15, 10))
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="Greys", ax=ax)
+plt.title('Correlation')'''
+st.code(code)
 fig, ax = plt.subplots(figsize=(15, 10))
 sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="Greys", ax=ax)
 plt.title('Correlation')
@@ -121,6 +150,9 @@ st.write("We can observe that there is no any correlation between two colomns. M
 
 
 st.header("More Detailed Overview")
+code = '''fig = px.scatter(df, y='Avg_BPM', x='Age', title='Average BPM in Different Ages')
+st.plotly_chart(fig)'''
+st.code(code)
 fig = px.scatter(df, y='Avg_BPM', x='Age', title='Average BPM in Different Ages')
 st.plotly_chart(fig)
 st.write("Average BPM is not depended on age.")
@@ -136,6 +168,18 @@ with col2:
     st.subheader("Weight Distribution by Gender")
     fig = px.histogram(df, x="Weight (kg)", color="Gender", title="Weight Distribution by Gender")
     st.plotly_chart(fig)
+code = '''col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Height Distribution by Gender")
+    fig = px.histogram(df, x="Height (m)", color="Gender", title="Height Distribution by Gender")
+    st.plotly_chart(fig)
+
+with col2:
+    st.subheader("Weight Distribution by Gender")
+    fig = px.histogram(df, x="Weight (kg)", color="Gender", title="Weight Distribution by Gender")
+    st.plotly_chart(fig)'''
+st.code(code)
 st.write("Height and Weight distribution completly independent from gender in this dataset.")
 
 st.write("Let's see if the number of calories burned depends on the duration of the workout for Cardio and HIIT.")
