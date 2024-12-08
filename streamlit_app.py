@@ -16,14 +16,28 @@ st.dataframe(df.head())
 
 st.header("Basic Statistics")
 st.write(df.describe())
+st.write("
+Count line shows us number of non-NA/null observations. We have 1800 rows in each column. Each column have nan values.")
 
 st.header("Missing Values")
 st.write("Number of missing values in each column:")
 st.write(df.isna().sum())
+st.write("isna function show number of nan values in each column, which proves that dataset has nan fields.")
 
+st.write(df.info())
+st.write("We can observe that besides 'Gender' and 'Workout_Type' which are obvious are not numerical columns there is a 'Max_BPM' column with Object data type included")
+
+st.header("Cleaning")
+st.write("Change of data type in the Max_BPM column")
 df['Max_BPM'] = pd.to_numeric(df['Max_BPM'], errors='coerce')
-df = df.dropna(subset=['Age', 'Gender', 'Workout_Type'])
+st.write(df.info())
 
+st.write("We can not fillin columns 'Gender' and 'Workout_Type' with average values. So I prefer to drop out lines with blank fields in this columns.")
+st.write("I think in real world age is super important for fitness data. So I decided not to fill it with average and delete lines with nans.")
+df = df.dropna(subset=['Age', 'Gender', 'Workout_Type'])
+st.write(df.isna().sum())
+
+st.write("If we delete all the lines with nans we will lose about 1/3 of dataset. Therefore I decided to fillin fileds with average values for each column.")
 columns_to_fill = [
     "Avg_BPM", "Max_BPM", "Weight (kg)", "Height (m)", "Resting_BPM",
     "Session_Duration (hours)", "Calories_Burned", "Fat_Percentage",
@@ -37,6 +51,7 @@ for col in columns_to_fill:
 valid_workout_types = ["Strength", "Cardio", "HIIT", "Yoga"]
 df.loc[~df['Workout_Type'].isin(valid_workout_types), 'Workout_Type'] = None
 df = df.dropna(subset=['Workout_Type']).reset_index(drop=True)
+st.write(df.isna().sum())
 
 st.header("Histograms")
 st.write("Distribution of numerical columns:")
@@ -76,10 +91,10 @@ with col2:
     st.plotly_chart(fig)
     
 st.header("Calories Burned by Workout Type (Cardio & HIIT)")
-subset_df = df[df['Workout_Type'].isin(['Cardio', 'HIIT'])]
-fig = px.scatter(
-    subset_df, x='Session_Duration (hours)', y='Calories_Burned',
+fig = px.scatter(df[df['Workout_Type'].isin(['Cardio', 'HIIT'])], x='Session_Duration (hours)', y='Calories_Burned', 
     color='Workout_Type', facet_col='Workout_Type',
     title="Calories Burned by Session Duration for Cardio & HIIT"
 )
 st.plotly_chart(fig)
+
+
