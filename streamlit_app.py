@@ -183,25 +183,30 @@ st.code(code)
 st.write("Height and Weight distribution completly independent from gender in this dataset.")
 
 st.write("Let's see if the number of calories burned depends on the duration of the workout for Cardio and HIIT.")
-fig = px.scatter(df[df['Workout_Type'].isin(['Cardio', 'HIIT'])], x='Session_Duration (hours)', y='Calories_Burned', 
-    color='Workout_Type', facet_col='Workout_Type',
-    title="Calories Burned by Session Duration for Cardio & HIIT"
-)
+code = '''fig = px.scatter(df[df['Workout_Type'].isin(['Cardio', 'HIIT'])], x='Session_Duration (hours)', y='Calories_Burned', color='Workout_Type', facet_col='Workout_Type', title="Calories Burned by Session Duration for Cardio & HIIT")'''
+st.code(code)
+fig = px.scatter(df[df['Workout_Type'].isin(['Cardio', 'HIIT'])], x='Session_Duration (hours)', y='Calories_Burned', color='Workout_Type', facet_col='Workout_Type', title="Calories Burned by Session Duration for Cardio & HIIT")
 st.plotly_chart(fig)
 st.write("We can see that calories burned is not depended on session duration for cardio and HIIT workouts.")
 
+code = '''fig = px.box(df, x="Workout_Type", y="Session_Duration (hours)", title="Session duration depended on Workout type")'''
+st.code(code)
 fig = px.box(df, x="Workout_Type", y="Session_Duration (hours)", title="Session duration depended on Workout type")
 st.plotly_chart(fig)
 st.write("We do not see significant difference in session duration for different workout types.")
 
+code = '''fig = px.scatter(df.loc[df['Experience_Level'] == 3], y ='Water_Intake (liters)', x ='Fat_Percentage', color = 'Session_Duration (hours)',title='Water Intake affecting on Fat Percentage')'''
+st.code(code)
 fig = px.scatter(df.loc[df['Experience_Level'] == 3], y ='Water_Intake (liters)', x ='Fat_Percentage', color = 'Session_Duration (hours)',title='Water Intake affecting on Fat Percentage')
 st.plotly_chart(fig)
 st.write("This graph shows dependence of water inteka to fat percentage for people with experience level 3 for different session duration.")
 st.write("We can observe that there is no correlation between fat percentage and water intake.")
 
+code = '''avg_bpm_df = df.groupby("Workout_Type", as_index=False)["Avg_BPM"].mean()
+fig = px.bar(avg_bpm_df, x="Workout_Type", y="Avg_BPM", title="Average BPM during different workouts", color="Workout_Type")'''
+st.code(code)
 avg_bpm_df = df.groupby("Workout_Type", as_index=False)["Avg_BPM"].mean()
-fig = px.bar(avg_bpm_df, x="Workout_Type", y="Avg_BPM",
-             title="Average BPM during different workouts", color="Workout_Type")
+fig = px.bar(avg_bpm_df, x="Workout_Type", y="Avg_BPM", title="Average BPM during different workouts", color="Workout_Type")
 st.plotly_chart(fig)
 st.write("It is clearly seen that therre is almost no difference between workouts in BPM.")
 
@@ -213,10 +218,19 @@ st.write("Let's create a new column called Calculated_BMI.")
 st.header("Data Transformation 1")
 st.write("Calculating BMI index according to formula: ")
 st.latex(r"""{BMI} = \frac{\text{Weight}}{\text{Height}^2}""")
+code = '''df['Calculated_BMI'] = (df['Weight (kg)'] / (df['Height (m)'] ** 2))
+subset = ['BMI', 'Calculated_BMI', 'Weight (kg)', 'Height (m)']
+st.dataframe(df[subset])'''
+st.code(code)
 df['Calculated_BMI'] = (df['Weight (kg)'] / (df['Height (m)'] ** 2))
 subset = ['BMI', 'Calculated_BMI', 'Weight (kg)', 'Height (m)']
 st.dataframe(df[subset])
 
+code = '''fig, ax = plt.subplots(figsize=(5, 3))
+subset = ['BMI', 'Calculated_BMI', 'Weight (kg)', 'Height (m)']
+sns.heatmap(df[subset].corr(numeric_only=True), annot=True, cmap="Greys", ax=ax)
+plt.title('Correlation')'''
+st.code(code)
 fig, ax = plt.subplots(figsize=(5, 3))
 subset = ['BMI', 'Calculated_BMI', 'Weight (kg)', 'Height (m)']
 sns.heatmap(df[subset].corr(numeric_only=True), annot=True, cmap="Greys", ax=ax)
@@ -226,9 +240,13 @@ st.write("Calculated_BMI is highly dependent on Weight and Height.")
 st.write("BMI in dataset is not depended on Weight and Height.")
 st.write("There is no dependency between BMI and Calculated_BMI.")
 
+code = '''fig = px.scatter(df, x = 'Weight (kg)', y = 'Calculated_BMI', color = 'Height (m)')'''
+st.code(code)
 fig = px.scatter(df, x = 'Weight (kg)', y = 'Calculated_BMI', color = 'Height (m)')
 st.plotly_chart(fig)
 
+code = '''fig = px.scatter(df, x = 'Weight (kg)', y = 'BMI', color = 'Height (m)')'''
+st.code(code)
 fig = px.scatter(df, x = 'Weight (kg)', y = 'BMI', color = 'Height (m)')
 st.plotly_chart(fig)
 st.write("We see that Calculated_BMI is depended on Weight and Height.")
@@ -238,14 +256,25 @@ st.header("Data Transformation 2")
 st.write("Calculating if Avg_BPM is bigger than Max_BPM. It is contradicting situation.")
 st.latex(r"""{Check  BPM} = \text{Max BPM} - \text{Avg BPM}""")
 
+code = '''df['Check_BPM'] = (df['Max_BPM'] - df['Avg_BPM'] > 0)
+subset = ['Check_BPM', 'Max_BPM', 'Avg_BPM']
+st.dataframe(df[subset])'''
+st.code(code)
 df['Check_BPM'] = (df['Max_BPM'] - df['Avg_BPM'] > 0)
 subset = ['Check_BPM', 'Max_BPM', 'Avg_BPM']
 st.dataframe(df[subset])
 
+code = '''fig = px.scatter(df.loc[df['Workout_Type'] == 'Strength'], x = 'Avg_BPM', y = 'Max_BPM', color = 'Check_BPM' ,title = 'BPM depended on workout type')'''
+st.code(code)
 fig = px.scatter(df.loc[df['Workout_Type'] == 'Strength'], x = 'Avg_BPM', y = 'Max_BPM', color = 'Check_BPM' ,title = 'BPM depended on workout type')
 st.plotly_chart(fig)
 st.write("Another prove that dataset is generated randomly and columns are independent. On this graph we see Max_BPM and Avg_BPM. We see that where is no dependency bethween this two columns. Moreover, there are cases when Average BPM is higher than Maximum BPM which is not realistic.")
 
+code = '''buffer = io.StringIO()
+df.info(buf=buffer)
+s = buffer.getvalue()
+st.code(s)'''
+st.code(code)
 buffer = io.StringIO()
 df.info(buf=buffer)
 s = buffer.getvalue()
