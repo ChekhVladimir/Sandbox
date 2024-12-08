@@ -24,7 +24,10 @@ st.write("Number of missing values in each column:")
 st.write(df.isna().sum())
 st.write("isna function show number of nan values in each column, which proves that dataset has nan fields.")
 
-st.write(df.info())
+buffer = io.StringIO()
+df.info(buf=buffer)
+s = buffer.getvalue()
+st.code(s)
 st.write("We can observe that besides 'Gender' and 'Workout_Type' which are obvious are not numerical columns there is a 'Max_BPM' column with Object data type included")
 
 
@@ -32,7 +35,11 @@ st.write("We can observe that besides 'Gender' and 'Workout_Type' which are obvi
 st.header("Cleaning")
 st.write("Change of data type in the Max_BPM column")
 df['Max_BPM'] = pd.to_numeric(df['Max_BPM'], errors='coerce')
-st.write(df.info())
+
+buffer = io.StringIO()
+df.info(buf=buffer)
+s = buffer.getvalue()
+st.code(s)
 
 st.write("We can not fillin columns 'Gender' and 'Workout_Type' with average values. So I prefer to drop out lines with blank fields in this columns.")
 st.write("I think in real world age is super important for fitness data. So I decided not to fill it with average and delete lines with nans.")
@@ -173,37 +180,3 @@ st.code(s)
 
 st.header("Conclusion")
 st.write("Dataset is interesting for data cleaning and wide variety of different columns. Unfortunatly it is randomly generated and it is not possible to use this data for conclusions. ")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
