@@ -285,29 +285,25 @@ st.code(s)
 st.header("Conclusion")
 st.write("Dataset is interesting for data cleaning and wide variety of different columns. Unfortunatly it is randomly generated and it is not possible to use this data for conclusions. ")
 
+# Streamlit app title
+st.title("Gym Members Exercise Tracking Analysis with REST API")
+
+#  Functionality for API Endpoints 
+
+# Function for the GET method
 def get_data(age: int, max_bpm: int):
     """Fetch the first 5 rows above the requested Age and Max_BPM."""
     filtered_df = df[(df['Age'] > age) & (df['Max_BPM'] > max_bpm)]
     return filtered_df.head(5).to_dict(orient='records')
 
+# Function for the POST method
 def add_data(new_data: dict):
     """Add a new row to the dataset."""
     global df
     df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
     return {"message": "Data added successfully!", "new_entry": new_data}
 
-def add_data(new_data: dict):
-    """Add a new row to the dataset."""
-    global df
-    df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
-    return {"message": "Data added successfully!", "new_entry": new_data}
-
-def add_data(new_data: dict):
-    """Add a new row to the dataset."""
-    global df
-    df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
-    return {"message": "Data added successfully!", "new_entry": new_data}
-
+# REST API in Streamlit
 ctx = get_script_run_ctx()
 if ctx and ctx.query_string:
     # Parse query string
@@ -323,7 +319,9 @@ if ctx and ctx.query_string:
             st.json(result)
         except Exception as e:
             st.error(f"Error processing GET request: {e}")
-elif 'new_entry' in query_params:
+
+    # Handle POST request
+    elif 'new_entry' in query_params:
         try:
             # Assume new_entry is a JSON string
             import json
@@ -336,6 +334,8 @@ elif 'new_entry' in query_params:
     else:
         st.error("Invalid API query string parameters.")
 else:
+    #  Streamlit Dashboard 
+
     st.subheader("Dataset Overview")
     st.dataframe(df)
 
@@ -357,5 +357,3 @@ else:
         st.json(add_result["new_entry"])
 
     st.subheader("API Instructions")
-    st.markdown("""
-    ### GET Method:
