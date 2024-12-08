@@ -130,7 +130,8 @@ st.header("Prove")
 st.write("BMI index is equal to weight divided by squared height.")
 st.write("Let's create a new column called Calculated_BMI.")
 st.header("Data Transformation 1")
-st.write("Calculating BMI index according to formula: \[\text{BMI} = \frac{\text{Weight}}{\text{Height}^2}\] ")
+st.write("Calculating BMI index according to formula: ")
+st.latex(r"""\[\text{BMI} = \frac{\text{Weight}}{\text{Height}^2}\]""")
 
 
 
