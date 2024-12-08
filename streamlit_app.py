@@ -29,11 +29,15 @@ st.code(code)
 st.dataframe(df.head())
 
 st.header("Basic Statistics")
+code = '''st.write(df.describe())'''
+st.code(code)
 st.write(df.describe())
 st.write("Count line shows us number of non-NA/null observations. We have 1800 rows in each column. Each column have nan values.")
 
 st.header("Missing Values")
 st.write("Number of missing values in each column:")
+code = '''st.write(df.isna().sum())'''
+st.code(code)
 st.write(df.isna().sum())
 st.write("isna function show number of nan values in each column, which proves that dataset has nan fields.")
 
