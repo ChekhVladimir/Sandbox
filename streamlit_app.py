@@ -157,17 +157,6 @@ fig = px.scatter(df, y='Avg_BPM', x='Age', title='Average BPM in Different Ages'
 st.plotly_chart(fig)
 st.write("Average BPM is not depended on age.")
 
-col1, col2 = st.columns(2)
-
-with col1:
-    st.subheader("Height Distribution by Gender")
-    fig = px.histogram(df, x="Height (m)", color="Gender", title="Height Distribution by Gender")
-    st.plotly_chart(fig)
-
-with col2:
-    st.subheader("Weight Distribution by Gender")
-    fig = px.histogram(df, x="Weight (kg)", color="Gender", title="Weight Distribution by Gender")
-    st.plotly_chart(fig)
 code = '''col1, col2 = st.columns(2)
 
 with col1:
@@ -180,6 +169,18 @@ with col2:
     fig = px.histogram(df, x="Weight (kg)", color="Gender", title="Weight Distribution by Gender")
     st.plotly_chart(fig)'''
 st.code(code)
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Height Distribution by Gender")
+    fig = px.histogram(df, x="Height (m)", color="Gender", title="Height Distribution by Gender")
+    st.plotly_chart(fig)
+
+with col2:
+    st.subheader("Weight Distribution by Gender")
+    fig = px.histogram(df, x="Weight (kg)", color="Gender", title="Weight Distribution by Gender")
+    st.plotly_chart(fig)
+
 st.write("Height and Weight distribution completly independent from gender in this dataset.")
 
 st.write("Let's see if the number of calories burned depends on the duration of the workout for Cardio and HIIT.")
