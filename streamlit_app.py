@@ -309,4 +309,4 @@ def get_data():
         
 # Run the Flask app
 if name == '__main__':
-    app.run(debug=True)
+    app.run()
