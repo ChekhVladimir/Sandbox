@@ -169,7 +169,7 @@ st.write("Another prove that dataset is generated randomly and columns are indep
 buffer = io.StringIO()
 df.info(buf=buffer)
 s = buffer.getvalue()
-st.text(s)
+st.code(s)
 
 st.header("Conclusion")
 st.write("Dataset is interesting for data cleaning and wide variety of different columns. Unfortunatly it is randomly generated and it is not possible to use this data for conclusions. ")
