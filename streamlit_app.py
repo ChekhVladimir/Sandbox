@@ -307,6 +307,4 @@ def get_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
         
-# Run the Flask app
-if name == '__main__':
-    app.run()
+app.run()
