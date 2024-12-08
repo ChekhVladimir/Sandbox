@@ -26,6 +26,8 @@ st.write("isna function show number of nan values in each column, which proves t
 st.write(df.info())
 st.write("We can observe that besides 'Gender' and 'Workout_Type' which are obvious are not numerical columns there is a 'Max_BPM' column with Object data type included")
 
+
+
 st.header("Cleaning")
 st.write("Change of data type in the Max_BPM column")
 df['Max_BPM'] = pd.to_numeric(df['Max_BPM'], errors='coerce')
@@ -47,22 +49,28 @@ for col in columns_to_fill:
     mean_value = df[col].mean()
     df[col] = df[col].fillna(mean_value)
 
+st.header("Workout fields check")
+fig = px.bar(df, x = 'Workout_Type', color = 'Workout_Type', title = 'Workout types')
+st.plotly_chart(fig)
+st.write("As we can see there is some data that matches with other categories but changed a bit, so I will delete all the other types of Workout besides Strength, Cardio, HIIT and Yoga.")
+
 valid_workout_types = ["Strength", "Cardio", "HIIT", "Yoga"]
 df.loc[~df['Workout_Type'].isin(valid_workout_types), 'Workout_Type'] = None
 df = df.dropna(subset=['Workout_Type']).reset_index(drop=True)
 st.write(df.isna().sum())
 
-st.header("Histograms")
+
+
+st.header("Overview")
 st.write("Distribution of numerical columns:")
 fig, ax = plt.subplots(figsize=(16, 12))
 df.hist(bins=20, ax=ax)
 st.pyplot(fig)
+st.write("We can see that there is no zero values in data.")
 
-st.header("Gender Distribution")
 fig = px.pie(df, names="Gender", title="Gender Distribution")
 st.plotly_chart(fig)
 
-st.header("Workout Type Distribution")
 fig = px.bar(df, x='Workout_Type', color="Workout_Type", title='Workout Type Distribution')
 st.plotly_chart(fig)
 
@@ -71,12 +79,15 @@ fig, ax = plt.subplots(figsize=(15, 10))
 sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="Greys", ax=ax)
 plt.title('Correlation')
 st.pyplot(fig)
+st.write("We can observe that there is no any correlation between two colomns. Most likely that means that dataset is synthetic and values in each colomn were generated independently.")
 
-st.header("Average BPM by Age")
+
+
+st.header("More Detailed Overview")
 fig = px.scatter(df, y='Avg_BPM', x='Age', title='Average BPM in Different Ages')
 st.plotly_chart(fig)
+st.write("Average BPM is not depended on age.")
 
-st.header("Height and Weight by Gender")
 col1, col2 = st.columns(2)
 
 with col1:
@@ -88,12 +99,74 @@ with col2:
     st.subheader("Weight Distribution by Gender")
     fig = px.histogram(df, x="Weight (kg)", color="Gender", title="Weight Distribution by Gender")
     st.plotly_chart(fig)
-    
-st.header("Calories Burned by Workout Type (Cardio & HIIT)")
+st.write("Height and Weight distribution completly independent from gender in this dataset.")
+
+st.write("Let's see if the number of calories burned depends on the duration of the workout for Cardio and HIIT.")
 fig = px.scatter(df[df['Workout_Type'].isin(['Cardio', 'HIIT'])], x='Session_Duration (hours)', y='Calories_Burned', 
     color='Workout_Type', facet_col='Workout_Type',
     title="Calories Burned by Session Duration for Cardio & HIIT"
 )
 st.plotly_chart(fig)
+st.write("We can see that calories burned is not depended on session duration for cardio and HIIT workouts.")
+
+fig = px.box(df, x="Workout_Type", y="Session_Duration (hours)", title="Session duration depended on Workout type")
+st.plotly_chart(fig)
+st.write("We do not see significant difference in session duration for different workout types.")
+
+fig = px.scatter(df.loc[df['Experience_Level'] == 3], y ='Water_Intake (liters)', x ='Fat_Percentage', color = 'Session_Duration (hours)',title='Water Intake affecting on Fat Percentage')
+st.plotly_chart(fig)
+st.write("This graph shows dependence of water inteka to fat percentage for people with experience level 3 for different session duration.")
+st.write("We can observe that there is no correlation between fat percentage and water intake.")
+
+avg_bpm_df = df.groupby("Workout_Type", as_index=False)["Avg_BPM"].mean()
+fig = px.bar(avg_bpm_df, x="Workout_Type", y="Avg_BPM",
+             title="Average BPM during different workouts", color="Workout_Type")
+st.plotly_chart(fig)
+st.write("It is clearly seen that therre is almost no difference between workouts in BPM.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
