@@ -41,6 +41,11 @@ st.code(code)
 st.write(df.isna().sum())
 st.write("isna function show number of nan values in each column, which proves that dataset has nan fields.")
 
+code = '''buffer = io.StringIO()
+df.info(buf=buffer)
+s = buffer.getvalue()
+st.code(s)'''
+st.code(code)
 buffer = io.StringIO()
 df.info(buf=buffer)
 s = buffer.getvalue()
@@ -51,8 +56,15 @@ st.write("We can observe that besides 'Gender' and 'Workout_Type' which are obvi
 
 st.header("Cleaning")
 st.write("Change of data type in the Max_BPM column")
+code = '''df['Max_BPM'] = pd.to_numeric(df['Max_BPM'], errors='coerce')'''
+st.code(code)
 df['Max_BPM'] = pd.to_numeric(df['Max_BPM'], errors='coerce')
 
+code = '''buffer = io.StringIO()
+df.info(buf=buffer)
+s = buffer.getvalue()
+st.code(s)'''
+st.code(code)
 buffer = io.StringIO()
 df.info(buf=buffer)
 s = buffer.getvalue()
