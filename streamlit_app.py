@@ -5,12 +5,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import io
 
-code = """
+code = ("""
 import pandas as pd
 import plotly.express as px
 import seaborn as sns
-import matplotlib.pyplot as plt
-"""
+import matplotlib.pyplot as plt""")
 st.code(code)
 
 st.set_page_config(page_title="Gym Member Analysis", layout="wide")
