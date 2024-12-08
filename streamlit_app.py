@@ -136,10 +136,11 @@ df['Calculated_BMI'] = (df['Weight (kg)'] / (df['Height (m)'] ** 2))
 subset = ['BMI', 'Calculated_BMI', 'Weight (kg)', 'Height (m)']
 st.dataframe(df[subset])
 
-plt.figure(figsize=(5,3))
+fig, ax = plt.subplots(figsize=(5, 3))
 subset = ['BMI', 'Calculated_BMI', 'Weight (kg)', 'Height (m)']
-sns.heatmap(df[subset].corr(numeric_only = True), annot = True, cmap="Greys")
-plt.title('Correlation');
+sns.heatmap(df[subset].corr(numeric_only=True), annot=True, cmap="Greys", ax=ax)
+plt.title('Correlation')
+st.pyplot(fig)
 
 
 
