@@ -132,7 +132,9 @@ st.write("Let's create a new column called Calculated_BMI.")
 st.header("Data Transformation 1")
 st.write("Calculating BMI index according to formula: ")
 st.latex(r"""{BMI} = \frac{\text{Weight}}{\text{Height}^2}""")
-
+df['Calculated_BMI'] = (df['Weight (kg)'] / (df['Height (m)'] ** 2))
+subset = ['BMI', 'Calculated_BMI', 'Weight (kg)', 'Height (m)']
+st.dataframe(df[subset])
 
 
 
