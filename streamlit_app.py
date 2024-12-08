@@ -8,3 +8,8 @@ df = pd.read_csv("gym_members_exercise_tracking_synthetic_data.csv")
 st.dataframe(df)
 
 st.dataframe(df.describe())
+
+st.dataframe(df.isna().sum())
+
+st.dataframe(df.info())
+
