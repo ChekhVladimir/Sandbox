@@ -5,11 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import io
 
-code = ("""
-import pandas as pd
-import plotly.express as px
-import seaborn as sns
-import matplotlib.pyplot as plt""")
+code = ("""import pandas as pd""")
 st.code(code)
 
 st.set_page_config(page_title="Gym Member Analysis", layout="wide")
