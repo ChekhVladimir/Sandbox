@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import io
 
-st.code("""
+st.code(f"""
 import pandas as pd
 import plotly.express as px
 import seaborn as sns
