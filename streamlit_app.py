@@ -16,8 +16,7 @@ st.dataframe(df.head())
 
 st.header("Basic Statistics")
 st.write(df.describe())
-st.write("
-Count line shows us number of non-NA/null observations. We have 1800 rows in each column. Each column have nan values.")
+st.write("Count line shows us number of non-NA/null observations. We have 1800 rows in each column. Each column have nan values.")
 
 st.header("Missing Values")
 st.write("Number of missing values in each column:")
