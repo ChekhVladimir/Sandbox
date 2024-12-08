@@ -4,7 +4,7 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 import io
-from flask import Flask, request, jsonify
+from streamlit.runtime.scriptrunner import get_script_run_ctx
 
 st.set_page_config(page_title="Gym Member Analysis", layout="wide")
 
