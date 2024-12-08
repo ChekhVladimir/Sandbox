@@ -124,8 +124,15 @@ fig = px.bar(avg_bpm_df, x="Workout_Type", y="Avg_BPM",
 st.plotly_chart(fig)
 st.write("It is clearly seen that therre is almost no difference between workouts in BPM.")
 
-
-
+st.header("Hypothesis checking")
+st.write("Dataset is randomly generated and each column filled independently.")
+st.header("Prove")
+st.write("BMI index is equal to weight divided by squared height.")
+st.write("Let's create a new column called Calculated_BMI.")
+st.header("Data Transformation 1")
+st.write("Calculating BMI index according to formula: \[
+\text{BMI} = \frac{\text{Weight}}{\text{Height}^2}
+\] ")
 
 
 
