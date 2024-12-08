@@ -162,6 +162,8 @@ fig = px.scatter(df.loc[df['Workout_Type'] == 'Strength'], x = 'Avg_BPM', y = 'M
 st.plotly_chart(fig)
 st.write("Another prove that dataset is generated randomly and columns are independent. On this graph we see Max_BPM and Avg_BPM. We see that where is no dependency bethween this two columns. Moreover, there are cases when Average BPM is higher than Maximum BPM which is not realistic.")
 
+df.info()
+
 st.header("Conclusion")
 st.write("Dataset is interesting for data cleaning and wide variety of different columns. Unfortunatly it is randomly generated and it is not possible to use this data for conclusions. ")
 
