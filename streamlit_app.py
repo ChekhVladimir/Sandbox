@@ -9,6 +9,14 @@ st.set_page_config(page_title="Gym Member Analysis", layout="wide")
 
 st.title("Gym Members Exercise Tracking Analysis")
 
+code = '''
+import pandas as pd
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+'''
+st.code(code)
+
 df = pd.read_csv("gym_members_exercise_tracking_synthetic_data.csv")
 
 st.header("Dataset")
