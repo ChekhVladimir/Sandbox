@@ -159,6 +159,9 @@ st.write("Calculating if Avg_BPM is bigger than Max_BPM. It is contradicting sit
 st.latex(r"""{Check  BPM} = \text{Max BPM} - \text{Avg BPM}""")
 
 df['Check_BPM'] = (df['Max_BPM'] - df['Avg_BPM'] > 0)
+subset = ['Check_BPM', 'Max_BPM', 'Avg_BPM']
+st.dataframe(df[subset])
+
 fig = px.scatter(df.loc[df['Workout_Type'] == 'Strength'], x = 'Avg_BPM', y = 'Max_BPM', color = 'Check_BPM' ,title = 'BPM depended on workout type')
 st.plotly_chart(fig)
 st.write("Another prove that dataset is generated randomly and columns are independent. On this graph we see Max_BPM and Avg_BPM. We see that where is no dependency bethween this two columns. Moreover, there are cases when Average BPM is higher than Maximum BPM which is not realistic.")
