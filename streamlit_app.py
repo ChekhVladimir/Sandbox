@@ -3,13 +3,8 @@ import pandas as pd
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-st.code("
-    import streamlit as st
-    import pandas as pd
-    import plotly.express as px
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-")
+st.code("""import streamlit as st""")
+st.code("""import pandas as pd""")
 
 st.set_page_config(page_title="Gym Member Analysis", layout="wide")
 
